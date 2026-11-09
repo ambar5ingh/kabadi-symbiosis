@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kabadi Symbiosis</title>
+<meta name="description" content="Map the missing waste-to-resource loops in India's industrial clusters. Industrial symbiosis from Kalundborg, NISP and Ulsan, adapted for India with its kabadi network.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♻️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Circular economy · India</p>
+    <h1>Kabadi Symbiosis</h1>
+    <p class="lede">One factory's waste is another factory's raw material. Denmark, the UK and Korea built whole industrial ecosystems on this idea. India already has the hardest part: a kabadiwala network that moves scrap through every lane. This tool maps where the loops could close.</p>
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="explore" class="active">Explore clusters</button>
+      <button role="tab" data-tab="match">Match my waste</button>
+      <button role="tab" data-tab="research">Research</button>
+      <button role="tab" data-tab="method">Method</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- EXPLORE -->
+  <section id="tab-explore" class="tab active">
+    <div class="explore">
+      <aside class="clusters" aria-label="Clusters">
+        <h2 class="small-h">Pick a cluster</h2>
+        <div id="cluster-list"></div>
+      </aside>
+
+      <div class="stage">
+        <div class="stage-head">
+          <div>
+            <h2 id="c-name">—</h2>
+            <p id="c-blurb" class="muted"></p>
+          </div>
+        </div>
+        <div class="controls">
+          <label class="slider">
+            <span>Facilitation level <b id="uptake-label"></b></span>
+            <input id="uptake" type="range" min="10" max="90" step="5" value="35">
+            <span class="scale"><span>Laissez-faire</span><span>NISP-style broker</span></span>
+          </label>
+          <label class="toggle">
+            <input id="kabadi" type="checkbox" checked>
+            <span class="switch"></span>
+            <span>Kabadi network layer</span>
+          </label>
+        </div>
+        <div id="graph" class="graph" aria-label="Waste exchange network"></div>
+        <div id="legend" class="legend"></div>
+        <div class="node-editor">
+          <div class="ne-head">
+            <h3 class="small-h">Industries in this cluster</h3>
+            <button id="reset" class="ghost">Reset</button>
+          </div>
+          <div id="node-list"></div>
+          <details class="add-ind">
+            <summary>+ Add any industry</summary>
+            <div id="add-list"></div>
+          </details>
+        </div>
+      </div>
+
+      <aside class="panel" aria-label="Results">
+        <div class="metrics" id="metrics"></div>
+        <div class="card" id="missing"></div>
+        <div class="card">
+          <h3 class="small-h">Top exchanges</h3>
+          <ol id="exchanges" class="exchanges"></ol>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- MATCH -->
+  <section id="tab-match" class="tab">
+    <div class="match-form card">
+      <h2>Match my waste</h2>
+      <p class="muted">Tell us what you're throwing away. We'll show who can use it, how, and where it's already been done.</p>
+      <div class="form-row">
+        <label>Waste stream
+          <select id="m-waste"></select>
+        </label>
+        <label>Tonnes per year
+          <input id="m-tonnes" type="number" min="1" value="5000">
+        </label>
+      </div>
+    </div>
+    <div id="m-summary" class="metrics wide"></div>
+    <div id="m-results" class="match-grid"></div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section id="tab-research" class="tab prose">
+    <h2>Why industrial symbiosis, and why India?</h2>
+    <p>Kirchherr et al. counted 114 definitions of "circular economy" <a class="cite" href="#ref-13">[13]</a>. Most share one idea: keep materials in use. <em>Industrial symbiosis</em> is the business-to-business version, where separate firms swap materials, energy, water and by-products to gain a shared advantage from being close together <a class="cite" href="#ref-1">[1]</a>.</p>
+    <p>The Ellen MacArthur Foundation argues that India, still building most of its future industrial base, can design circularity in rather than retrofit it <a class="cite" href="#ref-14">[14]</a>. India also has something Europe lacks. Its informal recyclers, the kabadiwalas, already recover a large share of recyclables at very low cost <a class="cite" href="#ref-12">[12]</a>.</p>
+
+    <div class="callout">
+      <h3>The Indian evidence: Nanjangud, Karnataka</h3>
+      <p>Bain, Shenoy, Ashton and Chertow studied an industrial area near Mysuru. They found firms already exchanging bagasse, ash and other residues, mostly through informal, market-driven deals rather than any planned eco-park <a class="cite" href="#ref-6">[6]</a>. This mirrors Chertow's point that symbiosis is often already there, waiting to be "uncovered" <a class="cite" href="#ref-3">[3]</a>. The opportunity in India is to make these hidden exchanges visible, then add the ones that are missing.</p>
+    </div>
+
+    <h2>Six models from abroad</h2>
+    <div id="models" class="models"></div>
+
+    <h2>What the app borrows from each</h2>
+    <ul>
+      <li><b>Kalundborg</b>: the network map. Anchor tenants such as power, sugar and steel sit at the centre <a class="cite" href="#ref-2">[2]</a>.</li>
+      <li><b>NISP</b>: the facilitation slider. Brokered programmes turn far more potential exchanges into real ones <a class="cite" href="#ref-4">[4]</a>.</li>
+      <li><b>Ulsan</b>: the missing-link finder, which works like a feasibility pipeline for new partners <a class="cite" href="#ref-8">[8]</a>.</li>
+      <li><b>Kawasaki</b>: the city nodes. Municipal food waste and PET flow into industry <a class="cite" href="#ref-9">[9]</a>.</li>
+      <li><b>Brazil</b>: the kabadi layer. Informal collectors are treated as infrastructure and counted as livelihoods <a class="cite" href="#ref-11">[11]</a>.</li>
+    </ul>
+
+    <h2>References</h2>
+    <ol id="refs" class="refs"></ol>
+  </section>
+
+  <!-- METHOD -->
+  <section id="tab-method" class="tab prose">
+    <h2>How the numbers are made</h2>
+    <p>This is an <b>exploration tool, not a feasibility study</b>. Every number is an indicative, order-of-magnitude estimate meant to show <em>where</em> loops might close and roughly how much they matter.</p>
+    <h3>The matching engine</h3>
+    <ol>
+      <li>Each cluster is a list of industry types, with a unit count and a scale factor.</li>
+      <li>Each industry has typical waste outputs (t/yr per unit) and a list of streams it can accept as input.</li>
+      <li>For every waste a node produces, the engine finds every other node in the cluster that accepts it. Some industries can also reuse their own waste, such as ceramic grog going back into tiles.</li>
+      <li>Matched tonnes = supply × <b>uptake rate</b>, split among receivers in proportion to their size.</li>
+      <li>The uptake rate is the <b>facilitation level</b> slider. It runs from 10% (firms find each other by chance) to 90% (an active broker like the UK's NISP).</li>
+      <li>With the <b>kabadi layer</b> on, streams usually handled by informal aggregators (PET, cotton waste, husk, chrome shavings, cooking oil and so on) route through an aggregator hub. Their uptake gets a +15 percentage-point boost, capped at 95%. This reflects evidence that informal networks raise recovery rates in developing countries <a class="cite" href="#ref-12">[12]</a>.</li>
+      <li>Waste with no receiver in the cluster is flagged as a <b>missing link</b>, along with the industries that could absorb it.</li>
+    </ol>
+    <h3>The metrics</h3>
+    <ul>
+      <li><b>Circularity</b> = matched tonnes ÷ total waste generated in the cluster.</li>
+      <li><b>Value unlocked</b> = Σ tonnes × (material value to receiver + disposal cost avoided by generator), shown in ₹ crore per year.</li>
+      <li><b>CO₂ avoided</b> = Σ tonnes × substitution factor (virgin material or fossil fuel displaced).</li>
+      <li><b>Livelihoods</b> = Σ tonnes × handling intensity (jobs per 1,000 t/yr in collection, sorting and transport).</li>
+    </ul>
+    <h3>Indicative factors by stream</h3>
+    <div class="table-wrap"><table id="factor-table"></table></div>
+    <h3>Known limits</h3>
+    <ul>
+      <li>Distance is ignored inside a cluster. Steam and heat really only travel a few kilometres, while ash and husk move hundreds.</li>
+      <li>Receiver capacity isn't capped, so a single brick maker can't really absorb a power plant's ash.</li>
+      <li>Cluster compositions are rounded and illustrative. They sketch each cluster's shape rather than count its firms.</li>
+      <li>Prices and factors vary a lot by region, season and quality. Treat them as starting points to replace with local data.</li>
+    </ul>
+    <p class="muted">The code is plain HTML, CSS and JavaScript, so you can fork it and swap in real cluster data in <code>data.js</code>.</p>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  <p>Built as an open exploration of circular-economy ideas for India. Numbers are indicative. See <a href="#" data-goto="method">Method</a>.</p>
+</footer>
+
+<div id="tooltip" class="tooltip" role="tooltip"></div>
+
+<script src="lib/d3.min.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
