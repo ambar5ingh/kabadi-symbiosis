@@ -296,6 +296,8 @@
 
   function ticked() {
     if (!sim._linkSel) return;
+    const W = sim._w || 800, H = sim._h || 500;
+    sim.nodes().forEach(d => { d.x = Math.max(d.r + 30, Math.min(W - d.r - 30, d.x)); d.y = Math.max(d.r + 10, Math.min(H - d.r - 22, d.y)); });
     sim._linkSel.attr("d", l => {
       const s = l.source, t = typeof l.target === "object" ? l.target : sim.nodes().find(n => n.id === l.target);
       const src = typeof s === "object" ? s : sim.nodes().find(n => n.id === s);
@@ -310,8 +312,6 @@
       const mx = (src.x + t.x) / 2 - dy / d * off, my = (src.y + t.y) / 2 + dx / d * off;
       return `M${src.x},${src.y} Q${mx},${my} ${t.x},${t.y}`;
     });
-    const W = sim._w || 800, H = sim._h || 500;
-    sim.nodes().forEach(d => { d.x = Math.max(d.r + 30, Math.min(W - d.r - 30, d.x)); d.y = Math.max(d.r + 10, Math.min(H - d.r - 22, d.y)); });
     sim._nodeSel.attr("transform", d => { posCache.set(d.id, { x: d.x, y: d.y }); return `translate(${d.x},${d.y})`; });
   }
 
